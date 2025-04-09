@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../../../config/routes.php';
 
 // Define BASE_URL constant if not already defined
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/php-blood-donation-system');
+    define('BASE_URL', '/CongCu_C4_Nhom16');
 }
 
 // Check if user is logged in and has admin rights
@@ -694,7 +694,7 @@ if (preg_match('/controller=([^&]+)/', $current_page, $matches)) {
                 </div>
                 
                 <div class="menu-item">
-                    <a href="index.php?controller=Event&action=index" 
+                    <a href="index.php?controller=Event&action=adminIndex" 
                         class="menu-link <?= ($current_controller == 'event') ? 'active' : '' ?>">
                         <i class="menu-icon fas fa-calendar-day"></i>
                         <span>Sự kiện hiến máu</span>

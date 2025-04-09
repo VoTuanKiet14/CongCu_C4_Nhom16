@@ -5,7 +5,7 @@
  * This avoids hardcoding routes in multiple files and makes route changes easier
  */
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/php-blood-donation-system');
+    define('BASE_URL', '/CongCu_C4_Nhom16');
 }
 // Authentication routes
 define('HOME_ROUTE', BASE_URL . '/index.php?controller=Home&action=index');

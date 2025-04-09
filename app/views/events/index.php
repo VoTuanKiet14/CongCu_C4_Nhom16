@@ -1,7 +1,7 @@
 <?php
 // Define any constants needed
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/php-blood-donation-system');
+    define('BASE_URL', '/CongCu_C4_Nhom16');
 }
 
 /**

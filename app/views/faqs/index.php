@@ -193,7 +193,7 @@
     <div class="main-content">
         <div class="header">
             <h2>Quản lý FAQ<br>Danh sách và quản lý các câu hỏi thường gặp</h2>
-            <a href="/php-blood-donation-system/public/index.php?controller=Faq&action=create" class="btn-add">Thêm mới</a>
+            <a href="/CongCu_C4_Nhom16/public/index.php?controller=Faq&action=create" class="btn-add">Thêm mới</a>
         </div>
 
         <table class="table">
@@ -219,8 +219,8 @@
                             <td><?php echo htmlspecialchars($item['description']); ?></td>
                             <td><?php echo htmlspecialchars($item['timestamp']); ?></td>
                             <td>
-                                <a href="/php-blood-donation-system/public/index.php?controller=Faq&action=edit&id=<?php echo $item['id']; ?>" class="btn btn-edit">Sửa</a>
-                                <a href="/php-blood-donation-system/public/index.php?controller=Faq&action=delete&id=<?php echo $item['id']; ?>" class="btn btn-delete">Xóa</a>
+                                <a href="/CongCu_C4_Nhom16/public/index.php?controller=Faq&action=edit&id=<?php echo $item['id']; ?>" class="btn btn-edit">Sửa</a>
+                                <a href="/CongCu_C4_Nhom16/public/index.php?controller=Faq&action=delete&id=<?php echo $item['id']; ?>" class="btn btn-delete">Xóa</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

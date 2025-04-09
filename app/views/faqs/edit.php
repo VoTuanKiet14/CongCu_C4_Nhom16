@@ -17,7 +17,7 @@
 
     <h1>Edit FAQ</h1>
 
-    <form action="/php-blood-donation-system/public/index.php?controller=Faq&action=update&id=<?php echo $faq['id']; ?>" method="POST">
+    <form action="/CongCu_C4_Nhom16/public/index.php?controller=Faq&action=update&id=<?php echo $faq['id']; ?>" method="POST">
         <div>
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($faq['title']); ?>" required>
@@ -30,7 +30,7 @@
             <button type="submit">Update FAQ</button>
         </div>
     </form>
-    <a href="/php-blood-donation-system/public/index.php?controller=Faq&action=manage">Back to FAQ List</a>
+    <a href="/CongCu_C4_Nhom16/public/index.php?controller=Faq&action=manage">Back to FAQ List</a>
 
 
     
