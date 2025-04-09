@@ -13,6 +13,7 @@ function formatDate($date) {
     if (empty($date)) return 'N/A';
     $dateObj = new DateTime($date);
     return $dateObj->format('d/m/Y');
+    
 }
 
 /**
