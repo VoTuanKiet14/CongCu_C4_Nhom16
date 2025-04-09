@@ -74,6 +74,7 @@ class EventController
             global $donationUnits;
             // Initialize with default values
             $donationUnits = [];
+            
 
             try {
                 $donationUnits = DonationUnit::all();
@@ -89,7 +90,7 @@ class EventController
             echo '<p><strong>Message:</strong> ' . $e->getMessage() . '</p>';
         }
     }
-    
+
 
     public function adminStore()
     {
