@@ -115,4 +115,99 @@ class UserController
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    public function edit($id)
+    {
+        AuthController::authorize(['ADMIN']);
+
+        $stmt = $this->mysqli->prepare("
+            SELECT u.cccd, u.email, u.phone, ui.full_name, r.id as role_id, r.name as role_name
+            FROM user u 
+            LEFT JOIN user_info ui ON u.user_info_id = ui.id
+            LEFT JOIN role r ON u.role_id = r.id
+            WHERE u.cccd = ?
+        ");
+
+        if (!$stmt) {
+            die("Error preparing statement: " . $this->mysqli->error);
+        }
+
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        if (!$user) {
+            die("User not found");
+        }
+
+        $roles = $this->getRoles();
+        require_once '../app/views/users/edit.php';
+    }
+
+    public function update($id)
+    {
+        AuthController::authorize(['ADMIN']);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $phone = $_POST['phone'];
+            $email = $_POST['email'];
+            $role_id = $_POST['role_id'];
+            $username = $_POST['username'];
+
+            $stmt = $this->mysqli->prepare("UPDATE user SET phone = ?, email = ?, role_id = ? WHERE cccd = ?");
+
+            if (!$stmt) {
+                die("Error preparing statement: " . $this->mysqli->error);
+            }
+
+            $stmt->bind_param("ssss", $phone, $email, $role_id, $username);
+
+            if ($stmt->execute()) {
+                header("Location: " . BASE_URL . "/index.php?controller=User&action=list");
+                exit;
+            } else {
+                die("Error updating user: " . $stmt->error);
+            }
+        }
+    }
+    public function delete($id)
+    {
+        AuthController::authorize(['ADMIN']);
+
+        if (!$id) {
+            die("ID is required");
+        }
+
+        try {
+            // Bắt đầu transaction
+            $this->mysqli->begin_transaction();
+
+            // Xóa thông tin user từ bảng user_info
+            $stmt = $this->mysqli->prepare("DELETE FROM user_info WHERE id = (SELECT user_info_id FROM user WHERE cccd = ?)");
+            if (!$stmt) {
+                throw new \Exception("Error preparing user_info delete statement: " . $this->mysqli->error);
+            }
+            $stmt->bind_param("s", $id);
+            $stmt->execute();
+
+            // Xóa user từ bảng user
+            $stmt = $this->mysqli->prepare("DELETE FROM user WHERE cccd = ?");
+            if (!$stmt) {
+                throw new \Exception("Error preparing user delete statement: " . $this->mysqli->error);
+            }
+            $stmt->bind_param("s", $id);
+            $stmt->execute();
+
+            // Commit transaction
+            $this->mysqli->commit();
+
+            // Chuyển hướng về trang danh sách
+            header("Location: " . BASE_URL . "/index.php?controller=User&action=list");
+            exit;
+        } catch (\Exception $e) {
+            // Rollback nếu có lỗi
+            $this->mysqli->rollback();
+            die("Error deleting user: " . $e->getMessage());
+        }
+    }
 }
