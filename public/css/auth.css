@@ -1,0 +1,209 @@
+:root {
+    --primary-color: #3D9BE9;
+    --accent-color: #4CAF50;
+    --light-bg: #F0F2F5;
+    --white: #FFFFFF;
+    --dark-text: #333333;
+    --light-text: #6c757d;
+}
+
+body {
+    background-color: var(--light-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Bootstrap overrides */
+.container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: 30px;
+    padding: 10px 25px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #2d80c9;
+    border-color: #2d80c9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 15px 15px 0 0 !important;
+    padding: 25px 20px;
+}
+
+.card-body {
+    padding: 25px 20px;
+    background-color: var(--white);
+}
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+    padding: 10px 15px;
+    height: auto;
+    border: 1px solid #ddd;
+    transition: all 0.3s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(61, 155, 233, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Login specific styles */
+.auth-image {
+    background-image: url('https://cdn.pixabay.com/photo/2020/11/03/15/31/blood-donation-5710439_1280.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Links in auth pages */
+.auth-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.auth-links a:hover {
+    color: #2d80c9;
+    text-decoration: underline;
+}
+
+/* Input groups */
+.input-group-text {
+    background-color: #f8f9fa;
+    border-radius: 10px 0 0 10px;
+    border-right: none;
+}
+
+.input-group .form-control {
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+}
+
+/* Logo styling */
+.auth-logo {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 15px 0;
+    position: relative;
+}
+
+.auth-logo img {
+    height: 80px;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.auth-logo img:hover {
+    transform: scale(1.05);
+}
+
+.auth-logo:after {
+    content: '';
+    display: block;
+    width: 40%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+    margin: 15px auto 0;
+    opacity: 0.7;
+}
+
+/* Registration specific styles */
+.section-title {
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 2px;
+}
+
+/* Form check input styling */
+.form-check-input:checked {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .card-header {
+        text-align: center;
+        padding: 20px 15px;
+    }
+
+    .card-body {
+        padding: 20px 15px;
+    }
+
+    body {
+        padding: 20px 0;
+        display: block;
+    }
+
+    .container {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .auth-logo {
+        margin-bottom: 20px;
+    }
+
+    .auth-logo img {
+        height: 65px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .container {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+}

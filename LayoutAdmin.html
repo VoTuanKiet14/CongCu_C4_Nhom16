@@ -1,0 +1,575 @@
+<?php
+// Define any constants needed
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/php-blood-donation-system');
+}
+?>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch hẹn hiến máu của tôi - Hệ thống Hiến máu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e74c3c;
+            --primary-dark: #c0392b;
+            --secondary-color: #3498db;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --border-color: #e1e1e1;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .header-banner {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .user-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        .blood-type {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: #f8d7da;
+            color: #dc3545;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--primary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        
+        .appointment-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .appointment-card:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .appointment-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .appointment-body {
+            padding: 1.5rem;
+        }
+        
+        .appointment-footer {
+            padding: 1rem 1.5rem;
+            background-color: var(--light-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-badge i {
+            font-size: 0.6rem;
+            margin-right: 0.3rem;
+        }
+        
+        .status-pending {
+            background-color: #fff8e1;
+            color: #ffc107;
+        }
+        
+        .status-confirmed {
+            background-color: #e3f2fd;
+            color: #2196f3;
+        }
+        
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #f44336;
+        }
+        
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #4caf50;
+        }
+        
+        .info-item {
+            margin-bottom: 1rem;
+        }
+        
+        .info-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 0.2rem;
+        }
+        
+        .info-value {
+            font-weight: 500;
+        }
+        
+        .btn-outline-blood {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-blood:hover {
+            color: white;
+            background-color: var(--primary-color);
+        }
+        
+        .action-button {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            color: #d1d1d1;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-banner {
+                padding: 1.5rem 0;
+            }
+            
+            .user-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-banner">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="mb-1">Quản lý lịch hẹn hiến máu</h2>
+                <p class="mb-0">Theo dõi và quản lý các lịch hẹn hiến máu của bạn</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <a href="<?= BASE_URL ?>/index.php?controller=Event&action=clientIndex" class="btn btn-outline-light">
+                    <i class="fas fa-calendar-plus me-2"></i>Đăng ký hiến máu mới
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-3 mb-4">
+            <!-- User Info Card -->
+            <div class="user-card mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="user-avatar">
+                        <?= isset($data['user']->full_name) ? mb_substr($data['user']->full_name, 0, 1, 'UTF-8') : 'U' ?>
+                    </div>
+                    <div>
+                        <h5 class="mb-0"><?= isset($data['user']->full_name) ? htmlspecialchars($data['user']->full_name) : 'Người dùng' ?></h5>
+                        <?php if (isset($data['user']->blood_type) && !empty($data['user']->blood_type)): ?>
+                            <span class="blood-type"><?= htmlspecialchars($data['user']->blood_type) ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">CCCD/CMND</div>
+                    <div class="info-value"><?= isset($data['user']->cccd) ? htmlspecialchars($data['user']->cccd) : 'N/A' ?></div>
+                </div>
+                
+                <?php if (isset($data['user']->dob) && !empty($data['user']->dob)): ?>
+                <div class="info-item">
+                    <div class="info-label">Ngày sinh</div>
+                    <div class="info-value"><?= date('d/m/Y', strtotime($data['user']->dob)) ?></div>
+                </div>
+                <?php endif; ?>
+                
+                <?php if (isset($data['user']->sex)): ?>
+                <div class="info-item">
+                    <div class="info-label">Giới tính</div>
+                    <div class="info-value"><?= $data['user']->sex == 1 ? 'Nam' : 'Nữ' ?></div>
+                </div>
+                <?php endif; ?>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-card d-flex align-items-center">
+                <div class="stats-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div>
+                    <div class="info-label">Tổng số lần hiến máu</div>
+                    <div class="h4 mb-0"><?= $data['donationCount'] ?></div>
+                </div>
+            </div>
+            
+            <div class="stats-card d-flex align-items-center">
+                <div class="stats-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div>
+                    <div class="info-label">Lịch hẹn hiện tại</div>
+                    <div class="h4 mb-0"><?= count($data['appointments']) ?></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column - Appointments -->
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0">Lịch hẹn của tôi</h4>
+                <div>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-filter me-2"></i>Lọc theo
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                            <li><a class="dropdown-item filter-item active" href="#" data-filter="all">Tất cả</a></li>
+                            <li><a class="dropdown-item filter-item" href="#" data-filter="pending">Đang chờ</a></li>
+                            <li><a class="dropdown-item filter-item" href="#" data-filter="confirmed">Đã xác nhận</a></li>
+                            <li><a class="dropdown-item filter-item" href="#" data-filter="completed">Đã hoàn thành</a></li>
+                            <li><a class="dropdown-item filter-item" href="#" data-filter="cancelled">Đã hủy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <?php if (empty($data['appointments'])): ?>
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="fas fa-calendar-times"></i>
+                </div>
+                <h4>Không có lịch hẹn nào</h4>
+                <p class="text-muted">Bạn chưa có lịch hẹn hiến máu nào. Hãy đăng ký hiến máu để góp phần cứu sống nhiều người.</p>
+                <a href="<?= BASE_URL ?>/index.php?controller=Event&action=clientIndex" class="btn btn-primary mt-2">
+                    <i class="fas fa-calendar-plus me-2"></i>Đăng ký hiến máu ngay
+                </a>
+            </div>
+            <?php else: ?>
+            
+            <!-- Appointment Cards -->
+            <?php foreach ($data['appointments'] as $appointment): ?>
+            <div class="appointment-card appointment-item" data-status="<?= strtolower(str_replace('status-', '', $appointment->status_class)) ?>">
+                <div class="appointment-header">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-calendar-alt me-2 text-primary"></i>
+                        <h5 class="mb-0">Lịch hẹn #<?= $appointment->appointment_id ?></h5>
+                    </div>
+                    <span class="status-badge <?= $appointment->status_class ?>">
+                        <i class="fas fa-circle"></i>
+                        <?= $appointment->status_text ?>
+                    </span>
+                </div>
+                <div class="appointment-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <div class="info-label">Sự kiện</div>
+                                <div class="info-value"><?= htmlspecialchars($appointment->event_name) ?></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <div class="info-label">Ngày hiến máu</div>
+                                <div class="info-value"><?= $appointment->formatted_date ?> lúc <?= $appointment->formatted_time ?></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <div class="info-label">Nơi hiến máu</div>
+                                <div class="info-value"><?= htmlspecialchars($appointment->donation_unit_name) ?></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <div class="info-label">Lượng máu</div>
+                                <div class="info-value"><?= $appointment->blood_amount ?> ml</div>
+                            </div>
+                        </div>
+                        <?php if (!empty($appointment->donation_unit_location)): ?>
+                        <div class="col-12">
+                            <div class="info-item">
+                                <div class="info-label">Địa chỉ</div>
+                                <div class="info-value">
+                                    <i class="fas fa-map-marker-alt me-1 text-danger"></i>
+                                    <?= htmlspecialchars($appointment->donation_unit_location) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="appointment-footer">
+                    <div>
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#appointmentModal<?= $appointment->appointment_id ?>">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Xem chi tiết
+                        </a>
+                    </div>
+                    <?php if ($appointment->status_text === 'Đang chờ' || $appointment->status_text === 'Đã xác nhận'): ?>
+                    <div>
+                        <button class="btn btn-sm btn-outline-danger action-button"
+                                onclick="confirmCancelAppointment(<?= $appointment->appointment_id ?>)">
+                            <i class="fas fa-times me-1"></i>Hủy lịch hẹn
+                        </button>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            
+            <!-- Detail Modal for each appointment -->
+            <div class="modal fade" id="appointmentModal<?= $appointment->appointment_id ?>" tabindex="-1" aria-labelledby="appointmentModalLabel<?= $appointment->appointment_id ?>" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="appointmentModalLabel<?= $appointment->appointment_id ?>">
+                                Chi tiết lịch hẹn #<?= $appointment->appointment_id ?>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-4 pb-3 border-bottom">
+                                <h6>Thông tin sự kiện</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <div class="info-label">Tên sự kiện</div>
+                                            <div class="info-value"><?= htmlspecialchars($appointment->event_name) ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <div class="info-label">Ngày sự kiện</div>
+                                            <div class="info-value"><?= date('d/m/Y', strtotime($appointment->event_date)) ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <div class="info-label">Thời gian sự kiện</div>
+                                            <div class="info-value">
+                                                <?= substr($appointment->event_start_time, 0, 5) ?> - <?= substr($appointment->event_end_time, 0, 5) ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <div class="info-label">Đơn vị tiếp nhận</div>
+                                            <div class="info-value"><?= htmlspecialchars($appointment->donation_unit_name) ?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4 pb-3 border-bottom">
+                                <h6>Thông tin lịch hẹn</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <div class="info-label">Ngày giờ hẹn</div>
+                                            <div class="info-value"><?= $appointment->formatted_date ?> lúc <?= $appointment->formatted_time ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <div class="info-label">Trạng thái</div>
+                                            <div>
+                                                <span class="status-badge <?= $appointment->status_class ?>">
+                                                    <i class="fas fa-circle"></i>
+                                                    <?= $appointment->status_text ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <div class="info-label">Lượng máu dự kiến</div>
+                                            <div class="info-value"><?= $appointment->blood_amount ?> ml</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h6>Địa điểm hiến máu</h6>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="info-item">
+                                            <div class="info-label">Địa chỉ</div>
+                                            <div class="info-value">
+                                                <i class="fas fa-map-marker-alt me-1 text-danger"></i>
+                                                <?= htmlspecialchars($appointment->donation_unit_location) ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- You could add a map here if coordinates are available -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <?php if ($appointment->status_text === 'Đang chờ' || $appointment->status_text === 'Đã xác nhận'): ?>
+                            <button type="button" class="btn btn-danger" onclick="confirmCancelAppointment(<?= $appointment->appointment_id ?>)">
+                                <i class="fas fa-times me-1"></i>Hủy lịch hẹn
+                            </button>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal for Cancellation -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalLabel">Xác nhận hủy lịch hẹn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn hủy lịch hẹn hiến máu này không?</p>
+                <p class="text-danger"><small><i class="fas fa-info-circle me-1"></i>Lưu ý: Sau khi hủy, bạn sẽ không thể khôi phục lịch hẹn này.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không, giữ lịch hẹn</button>
+                <form id="cancelForm" action="<?= BASE_URL ?>/index.php?controller=Appointment&action=cancelAppointment" method="post">
+                    <input type="hidden" name="appointment_id" id="cancelAppointmentId" value="">
+                    <button type="submit" class="btn btn-danger">Có, hủy lịch hẹn</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter functionality
+    const filterItems = document.querySelectorAll('.filter-item');
+    const appointmentItems = document.querySelectorAll('.appointment-item');
+    
+    filterItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all items
+            filterItems.forEach(fi => fi.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            const filter = this.getAttribute('data-filter');
+            
+            // Show or hide appointments based on filter
+            appointmentItems.forEach(appointment => {
+                if (filter === 'all') {
+                    appointment.style.display = 'block';
+                } else {
+                    if (appointment.getAttribute('data-status') === filter) {
+                        appointment.style.display = 'block';
+                    } else {
+                        appointment.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+    
+    // Function to set up cancel appointment
+    window.confirmCancelAppointment = function(appointmentId) {
+        document.getElementById('cancelAppointmentId').value = appointmentId;
+        
+        // Show the modal
+        new bootstrap.Modal(document.getElementById('cancelModal')).show();
+    };
+});
+</script>
+
+</body>
+</html>
