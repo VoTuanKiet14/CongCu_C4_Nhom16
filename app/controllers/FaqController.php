@@ -52,6 +52,7 @@ class FaqController
     public function create()
     {
         $connection  = $this->mysqli;
+        
         require_once '../app/views/faqs/create.php';
     }
 
