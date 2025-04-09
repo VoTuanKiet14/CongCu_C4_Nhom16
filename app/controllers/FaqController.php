@@ -66,7 +66,7 @@ class FaqController
         $faq = $result->fetch_assoc();
 
         if (!$faq) {
-            header('Location: /php-blood-donation-system/public/index.php?controller=Faq&action=manage');
+            header('Location: /CongCu_C4_Nhom16/public/index.php?controller=Faq&action=manage');
             exit;
         }
 
@@ -89,7 +89,7 @@ class FaqController
             $stmt = $this->mysqli->prepare("UPDATE faq SET title = ?, description = ?, timestamp = NOW() WHERE id = ?");
             $stmt->bind_param("ssi", $title, $description, $id); 
             if ($stmt->execute()) {
-                header('Location: /php-blood-donation-system/public/index.php?controller=Faq&action=manage');
+                header('Location: /CongCu_C4_Nhom16/public/index.php?controller=Faq&action=manage');
                 exit;
             } else {
                 echo "Error updating FAQ.";
@@ -113,7 +113,7 @@ class FaqController
         $stmt->bind_param("i", $id); 
 
         if ($stmt->execute()) {
-            header('Location: /php-blood-donation-system/public/index.php?controller=Faq&action=manage');
+            header('Location: /CongCu_C4_Nhom16/public/index.php?controller=Faq&action=manage');
             exit;
         } else {
             echo "Error deleting news article.";

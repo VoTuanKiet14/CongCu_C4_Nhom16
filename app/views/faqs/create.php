@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($stmt->execute()) {
                 // Redirect after successful insertion
-                header('Location: /php-blood-donation-system/public/index.php?controller=Faq&action=manage');
+                header('Location: /CongCu_C4_Nhom16/public/index.php?controller=Faq&action=manage');
                 exit;
             } else {
                 $errors[] = 'Failed to create FAQ. Please try again.';
@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="main-content">
         <div class="header">
             <h2>Quản lý FAQ<br>Danh sách và quản lý các câu hỏi thường gặp</h2>
-            <a href="/php-blood-donation-system/public/index.php?controller=Faq&action=manage" class="btn-add">Quay lại</a>
+            <a href="/CongCu_C4_Nhom16/public/index.php?controller=Faq&action=manage" class="btn-add">Quay lại</a>
         </div>
 
         <h1 class="text-center mb-4">Tạo FAQ</h1>

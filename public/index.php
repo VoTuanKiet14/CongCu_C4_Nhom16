@@ -23,7 +23,7 @@ require_once '../config/session.php';
 // session_start() is now in session.php
 
 // Define base URL to use across the application
-define('BASE_URL', '/php-blood-donation-system/public');
+define('BASE_URL', '/CongCu_C4_Nhom16/public');
 
 require_once '../app/controllers/AuthController.php';
 require_once '../app/controllers/UserController.php';
@@ -36,8 +36,7 @@ require_once '../app/controllers/HealthcheckController.php';
 require_once '../app/controllers/NewsController.php';
 require_once '../app/controllers/PasswordResetController.php';
 require_once '../app/controllers/BloodDonationHistoryController.php';
-require_once '../app/controllers/NewsAdmin.php';
-require_once '../app/controllers/FAQAdmin.php';
+
 
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
@@ -174,39 +173,39 @@ try {
             }
             break;
 
-        case 'NewsAdmin':
-            $newsAdminController = new NewsAdmin($mysqli);
-            if (method_exists($newsAdminController, $action)) {
-                if (isset($_GET['id']) && in_array($action, ['edit', 'update', 'delete', 'view'])) {
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update') {
-                        $newsAdminController->$action($_GET['id']);
-                    } else {
-                        $newsAdminController->$action($_GET['id']);
-                    }
-                } else {
-                    $newsAdminController->$action();
-                }
-            } else {
-                $newsAdminController->index();
-            }
-            break;
+        // case 'NewsAdmin':
+        //     $newsAdminController = new NewsAdmin($mysqli);
+        //     if (method_exists($newsAdminController, $action)) {
+        //         if (isset($_GET['id']) && in_array($action, ['edit', 'update', 'delete', 'view'])) {
+        //             if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update') {
+        //                 $newsAdminController->$action($_GET['id']);
+        //             } else {
+        //                 $newsAdminController->$action($_GET['id']);
+        //             }
+        //         } else {
+        //             $newsAdminController->$action();
+        //         }
+        //     } else {
+        //         $newsAdminController->index();
+        //     }
+        //     break;
 
-        case 'FAQAdmin':
-            $faqAdminController = new FAQAdmin($mysqli);
-            if (method_exists($faqAdminController, $action)) {
-                if (isset($_GET['id']) && in_array($action, ['edit', 'update', 'delete', 'view'])) {
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update') {
-                        $faqAdminController->$action($_GET['id']);
-                    } else {
-                        $faqAdminController->$action($_GET['id']);
-                    }
-                } else {
-                    $faqAdminController->$action();
-                }
-            } else {
-                $faqAdminController->index();
-            }
-            break;
+        // case 'FAQAdmin':
+        //     $faqAdminController = new FAQAdmin($mysqli);
+        //     if (method_exists($faqAdminController, $action)) {
+        //         if (isset($_GET['id']) && in_array($action, ['edit', 'update', 'delete', 'view'])) {
+        //             if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update') {
+        //                 $faqAdminController->$action($_GET['id']);
+        //             } else {
+        //                 $faqAdminController->$action($_GET['id']);
+        //             }
+        //         } else {
+        //             $faqAdminController->$action();
+        //         }
+        //     } else {
+        //         $faqAdminController->index();
+        //     }
+        //     break;
 
         case 'PasswordReset':
             $passwordResetController = new PasswordResetController($mysqli);

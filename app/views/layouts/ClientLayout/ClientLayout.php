@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Define BASE_URL constant if not already defined
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/php-blood-donation-system');
+    define('BASE_URL', '/CongCu_C4_Nhom16');
 }
 ?>
 

@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../../../config/routes.php';
 
 // Define BASE_URL constant if not already defined
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/php-blood-donation-system');
+    define('BASE_URL', '/CongCu_C4_Nhom16');
 }
 
 // Check if user is logged in
@@ -22,7 +22,7 @@ function renderNavLink($route, $label, $current_url) {
     $isActive = false;
     
     // Exact match for home page
-    if ($route == HOME_ROUTE && ($current_url == $route || $current_url == '/php-blood-donation-system/' || $current_url == '/php-blood-donation-system/index.php')) {
+    if ($route == HOME_ROUTE && ($current_url == $route || $current_url == '/CongCu_C4_Nhom16/' || $current_url == '/CongCu_C4_Nhom16/index.php')) {
         $isActive = true;
     } 
     // Match controller pattern for other pages
