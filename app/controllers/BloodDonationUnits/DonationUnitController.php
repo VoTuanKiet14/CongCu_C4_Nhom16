@@ -37,4 +37,9 @@ class DonationUnitController
         require_once '../app/views/donation_units/index.php';
 
     }
+    public function create()
+    {
+        AuthController::authorize(['ADMIN']); // Chỉ ADMIN được tạo mới
+        require_once '../app/views/donation_units/create.php';
+    }
 }
