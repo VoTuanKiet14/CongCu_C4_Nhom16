@@ -65,6 +65,31 @@ class EventController
         }
     }
 
+    
+    public function adminCreate()
+    {
+        try {
+            $donationUnits = DonationUnit::all();
+            // Create a global variable for donationUnits that can be accessed in the view
+            global $donationUnits;
+            // Initialize with default values
+            $donationUnits = [];
+
+            try {
+                $donationUnits = DonationUnit::all();
+            } catch (Exception $e) {
+                echo '<h3>Error in EventController@adminCreate</h3>';
+                echo '<p><strong>Message:</strong> ' . $e->getMessage() . '</p>';
+                return;
+            }
+
+            require_once '../app/views/admin/EventBloodDonation/EventBloodDonationCreate.php';
+        } catch (Exception $e) {
+            echo '<h3>Error in EventController@adminCreate</h3>';
+            echo '<p><strong>Message:</strong> ' . $e->getMessage() . '</p>';
+        }
+    }
+
     public function adminStore()
     {
         try {
