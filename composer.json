@@ -1,5 +1,5 @@
 {
-    "name": "bloodsystem/CongCu_C4_Nhom16",
+    "name": "bloodsystem/congcu-c4-nhom16",
     "description": "Blood Donation System",
     "type": "project",
     "require": {
@@ -7,7 +7,7 @@
         "phpmailer/phpmailer": "^6.8",
         "slim/slim": "^4.0",
         "slim/psr7": "^1.0",
-        "illuminate/database": "^12.5",
+        "illuminate/database": "^8.0",
         "vlucas/phpdotenv": "^5.0",
         "monolog/monolog": "^2.0"
     },
