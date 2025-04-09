@@ -89,6 +89,7 @@ class EventController
             echo '<p><strong>Message:</strong> ' . $e->getMessage() . '</p>';
         }
     }
+    
 
     public function adminStore()
     {
