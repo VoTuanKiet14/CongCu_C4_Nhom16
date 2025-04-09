@@ -181,6 +181,7 @@ class EventController
     public function clientIndex()
     {
         try {
+            
             // Get filter parameters from GET request
             $startDate = $_GET['startDate'] ?? null;
             $endDate = $_GET['endDate'] ?? null;
