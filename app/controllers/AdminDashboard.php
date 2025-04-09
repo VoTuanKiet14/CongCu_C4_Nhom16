@@ -98,4 +98,21 @@ class UserController
 
         require_once '../app/views/users/list.php';
     }
+    public function create()
+    {
+        AuthController::authorize(['ADMIN']); // Chỉ admin mới có quyền tạo user mới
+        $roles = $this->getRoles();
+        require_once '../app/views/users/create.php';
+    }
+    private function getRoles()
+    {
+        $stmt = $this->mysqli->prepare("SELECT * FROM role");
+        if (!$stmt) {
+            die("Error preparing statement: " . $this->mysqli->error);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
