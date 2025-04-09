@@ -1,0 +1,57 @@
+# Environment file
+.env
+
+# Vendor directory
+/vendor/
+
+# Node modules
+/node_modules/
+
+# Public storage
+/public/storage
+/public/hot
+
+# Storage directories
+/storage/*.key
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# Composer files
+composer.phar
+/composer.lock
+
+# PHPUnit files
+.phpunit.result.cache
+
+# IDE files
+/.idea/
+/.vscode/
+/.fleet/
+/.phpintel/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Uploaded files
+/public/uploads/
+
+# Testing files
+/coverage/
+
+# Logs
+/logs/
+php_errors.log
+
+#Temp
+/temp/*
+# Session files
+/temp/sessions/*
+!temp/sessions/.gitkeep
