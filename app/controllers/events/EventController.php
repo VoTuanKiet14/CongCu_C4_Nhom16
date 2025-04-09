@@ -74,7 +74,7 @@ class EventController
             global $donationUnits;
             // Initialize with default values
             $donationUnits = [];
-            
+
 
             try {
                 $donationUnits = DonationUnit::all();
@@ -126,6 +126,52 @@ class EventController
             echo '<h3>Error in EventController@adminStore</h3>';
             echo '<p><strong>Message:</strong> ' . $e->getMessage() . '</p>';
             echo '<p><strong>SQL Query:</strong> ' . (isset($e->getPrevious()->getSql) ? $e->getPrevious()->getSql() : 'N/A') . '</p>';
+        }
+    }
+
+    
+    public function adminEdit($id = null)
+    {
+        try {
+            // Get ID from GET parameter if not provided as function argument
+            if ($id === null && isset($_GET['id'])) {
+                $id = $_GET['id'];
+            }
+
+            if (!$id) {
+                throw new Exception("No event ID provided");
+            }
+
+            global $event;
+            global $donationUnits;
+
+            // Initialize with default values
+            $event = null;
+            $donationUnits = [];
+
+            try {
+                $event = Event::find($id);
+                if (!$event) {
+                    throw new Exception("Event not found with ID: $id");
+                }
+            } catch (Exception $e) {
+                echo '<h3>Error in EventController@adminEdit</h3>';
+                echo '<p><strong>Message:</strong> ' . $e->getMessage() . '</p>';
+                return;
+            }
+
+            try {
+                $donationUnits = DonationUnit::all();
+            } catch (Exception $e) {
+                echo '<h3>Error in EventController@adminEdit</h3>';
+                echo '<p><strong>Message:</strong> ' . $e->getMessage() . '</p>';
+                return;
+            }
+
+            require_once '../app/views/admin/EventBloodDonation/EventBloodDonationEdit.php';
+        } catch (Exception $e) {
+            echo '<h3>Error in EventController@adminEdit</h3>';
+            echo '<p><strong>Message:</strong> ' . $e->getMessage() . '</p>';
         }
     }
 
