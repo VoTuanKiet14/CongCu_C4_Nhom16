@@ -35,6 +35,7 @@ class FaqController
             die("Error preparing statement: " . $this->mysqli->error);
         }
 
+        
         $stmt->execute();
         $result = $stmt->get_result();
 
